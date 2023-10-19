@@ -1,0 +1,9 @@
+galaxy_info:
+  author: "Janek Lauer"
+  description: "a role to deploy vikunja and all it's required components with podman"
+  company: ""
+  license: "MIT"
+  min_ansible_version: "2.1"
+  galaxy_tags: []
+
+dependencies: []
