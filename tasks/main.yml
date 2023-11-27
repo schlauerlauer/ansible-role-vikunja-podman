@@ -1,0 +1,73 @@
+---
+# tasks file for ansible-role-vikunja-podman
+
+- name: "Create directories"
+  file:
+    path: "{{ item }}"
+    state: "directory"
+  loop:
+    - "{{ base_dir }}/vikunja"
+    - "{{ base_dir }}/vikunja/files"
+    - "{{ base_dir }}/vikunja/pg_data"
+
+- name: "pod"
+  containers.podman.podman_pod:
+    name: "vikunja-pod"
+    state: "created"
+    infra_name: "vikunja-infra"
+    recreate: no
+    ports:
+      - "{{ vikunja_frontend_port }}:80"
+      - "{{ vikunja_api_port }}:3456"
+  tags:
+    - "pod"
+
+- name: "postgres"
+  containers.podman.podman_container:
+    pod: "vikunja-pod"
+    name: "vikunja-db"
+    image: "docker.io/library/postgres:{{ postgres_version }}"
+    state: "started"
+    recreate: no
+    volume:
+      - "{{ base_dir }}/vikunja/pg_data:/var/lib/postgresql/data:rw,Z"
+    restart_policy: "no"
+    env:
+      PGDATA: "/var/lib/postgresql/data"
+      POSTGRES_PASSWORD: "{{ vikunja_database_password }}"
+      POSTGRES_USER: "{{ vikunja_database_user }}"
+      POSTGRES_DB: "{{ vikunja_database_database }}"
+  tags:
+    - "db"
+
+- name: "api"
+  containers.podman.podman_container:
+    pod: "vikunja-pod"
+    name: "vikunja-api"
+    image: "docker.io/vikunja/api:{{ vikunja_version }}"
+    state: "started"
+    recreate: no
+    volume:
+      - "{{ base_dir }}/vikunja/files:/app/vikunja/files,rw:Z"
+    restart_policy: "no"
+    env:
+      VIKUNJA_DATABASE_HOST: "{{ vikunja_database_host }}"
+      VIKUNJA_DATABASE_PASSWORD: "{{ vikunja_database_password }}"
+      VIKUNJA_DATABASE_TYPE: "{{ vikunja_database_type }}"
+      VIKUNJA_DATABASE_USER: "{{ vikunja_database_user }}"
+      VIKUNJA_DATABASE_DATABASE: "{{ vikunja_database_database }}"
+      VIKUNJA_SERVICE_JWTSECRET: "{{ vikunja_service_jwtsecret }}"
+      VIKUNJA_SERVICE_FRONTENDURL: "{{ vikunja_service_frontendurl }}"
+  tags:
+    - "api"
+
+- name: "frontend"
+  containers.podman.podman_container:
+    pod: "vikunja-pod"
+    name: "vikunja-frontend"
+    image: "docker.io/vikunja/frontend:{{ vikunja_version }}"
+    env:
+      VIKUNJA_API_URL: "{{ vikunja_api_url }}"
+    restart_policy: "no"
+  tags:
+    - "frontend"

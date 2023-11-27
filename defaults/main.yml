@@ -1,2 +1,21 @@
 ---
 # defaults file for ansible-role-vikunja-podman
+
+base_dir: "."
+
+vikunja_version: "0.21.0"
+postgres_version: "16.1-alpine3.18"
+
+vikunja_service_frontendurl: "http://localhost"
+vikunja_api_url: "http://localhost/api/v1"
+
+vikunja_service_jwtsecret: "CHANGE_ME_erased-unworthy-rinsing-upgrade-deftly-limb-rimmed-pellet"
+vikunja_database_password: "CHANGE_ME_outtakes-purify-jockstrap-refried-frugally-arson-refried-remedial"
+vikunja_database_user: "capably-concrete"
+
+vikunja_database_host: "127.0.0.1"
+vikunja_database_type: "postgres"
+vikunja_database_database: "vikunja"
+
+vikunja_frontend_port: 6060
+vikunja_api_port: 6061
