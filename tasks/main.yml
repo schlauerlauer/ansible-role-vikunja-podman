@@ -50,7 +50,7 @@
     volume:
       - "{{ base_dir }}/vikunja/files:/app/vikunja/files:rw,Z"
     restart_policy: "no"
-    env: {{ vikunja_env }}
+    env: "{{ vikunja_env }}"
   tags:
     - "api"
 
