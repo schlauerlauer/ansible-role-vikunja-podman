@@ -19,3 +19,4 @@ vikunja_database_database: "vikunja"
 
 vikunja_frontend_port: 6060
 vikunja_api_port: 6061
+vikunja_ports_interface: "0.0.0.0"
