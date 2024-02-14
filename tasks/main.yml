@@ -50,14 +50,7 @@
     volume:
       - "{{ base_dir }}/vikunja/files:/app/vikunja/files:rw,Z"
     restart_policy: "no"
-    env:
-      VIKUNJA_DATABASE_HOST: "{{ vikunja_database_host }}"
-      VIKUNJA_DATABASE_PASSWORD: "{{ vikunja_database_password }}"
-      VIKUNJA_DATABASE_TYPE: "{{ vikunja_database_type }}"
-      VIKUNJA_DATABASE_USER: "{{ vikunja_database_user }}"
-      VIKUNJA_DATABASE_DATABASE: "{{ vikunja_database_database }}"
-      VIKUNJA_SERVICE_JWTSECRET: "{{ vikunja_service_jwtsecret }}"
-      VIKUNJA_SERVICE_FRONTENDURL: "{{ vikunja_service_frontendurl }}"
+    env: {{ vikunja_env }}
   tags:
     - "api"
 
