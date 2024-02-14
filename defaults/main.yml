@@ -11,11 +11,15 @@ vikunja_frontend_port: 6060
 vikunja_api_port: 6061
 vikunja_ports_interface: "0.0.0.0"
 
+vikunja_database_password: "CHANGE_ME_outtakes-purify-jockstrap-refried-frugally-arson-refried-remedial"
+vikunja_database_user: "capably-concrete"
+vikunja_database_database: "vikunja"
+
 vikunja_env:
   VIKUNJA_DATABASE_HOST: "127.0.0.1"
-  VIKUNJA_DATABASE_PASSWORD: "CHANGE_ME_outtakes-purify-jockstrap-refried-frugally-arson-refried-remedial"
+  VIKUNJA_DATABASE_PASSWORD: "{{ vikunja_database_password }}"
   VIKUNJA_DATABASE_TYPE: "postgres"
-  VIKUNJA_DATABASE_USER: "capably-concrete"
-  VIKUNJA_DATABASE_DATABASE: "vikunja"
+  VIKUNJA_DATABASE_USER: "{{ vikunja_database_user }}"
+  VIKUNJA_DATABASE_DATABASE: "{{ vikunja_database_database }}"
   VIKUNJA_SERVICE_JWTSECRET: "CHANGE_ME_erased-unworthy-rinsing-upgrade-deftly-limb-rimmed-pellet"
   VIKUNJA_SERVICE_FRONTENDURL: "http://localhost:6060"
