@@ -48,7 +48,7 @@
     state: "started"
     recreate: no
     volume:
-      - "{{ base_dir }}/vikunja/files:/app/vikunja/files,rw:Z"
+      - "{{ base_dir }}/vikunja/files:/app/vikunja/files:rw,Z"
     restart_policy: "no"
     env:
       VIKUNJA_DATABASE_HOST: "{{ vikunja_database_host }}"
