@@ -40,6 +40,12 @@
   tags:
     - "db"
 
+- name: "Copy config template"
+  template:
+    force: no
+    src: "config.yml.j2"
+    dest: "{{ base_dir }}/vikunja/config.yml"
+
 - name: "api"
   containers.podman.podman_container:
     pod: "vikunja-pod"
@@ -47,8 +53,9 @@
     image: "docker.io/vikunja/api:{{ vikunja_version }}"
     state: "started"
     recreate: no
-    volume:
+    volumes:
       - "{{ base_dir }}/vikunja/files:/app/vikunja/files:rw,Z"
+      - "{{ base_dir }}/vikunja/config.yml:/app/vikunja/config.yml:rw,Z"
     restart_policy: "no"
     env: "{{ vikunja_env }}"
   tags:
