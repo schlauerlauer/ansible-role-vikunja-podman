@@ -46,11 +46,11 @@
     src: "config.yml.j2"
     dest: "{{ base_dir }}/vikunja/config.yml"
 
-- name: "api"
+- name: "app"
   containers.podman.podman_container:
     pod: "vikunja-pod"
-    name: "vikunja-api"
-    image: "docker.io/vikunja/api:{{ vikunja_version }}"
+    name: "vikunja"
+    image: "docker.io/vikunja/vikunja:{{ vikunja_version }}"
     state: "started"
     recreate: no
     volumes:
@@ -58,16 +58,3 @@
       - "{{ base_dir }}/vikunja/config.yml:/app/vikunja/config.yml:rw,Z"
     restart_policy: "no"
     env: "{{ vikunja_env }}"
-  tags:
-    - "api"
-
-- name: "frontend"
-  containers.podman.podman_container:
-    pod: "vikunja-pod"
-    name: "vikunja-frontend"
-    image: "docker.io/vikunja/frontend:{{ vikunja_version }}"
-    env:
-      VIKUNJA_API_URL: "{{ vikunja_api_url }}"
-    restart_policy: "no"
-  tags:
-    - "frontend"
